@@ -10,7 +10,7 @@ const Header = () => {
   return (
     <Navbar fluid className='bg-gray-200 shadow-lg dark:bg-gray-900'>
       <button
-      className='rounded-full mr-2 hover:bg-gray-300 dark:hover:bg-gray-700 p-3 sm:hidden'
+      className='rounded-full mr-2 hover:bg-gray-300 dark:hover:bg-gray-700 p-3 md:hidden'
       onClick={()=>dispatch(toggleSiderState())}
       >
         <FaThList className='text-gray-500 text-xl' />

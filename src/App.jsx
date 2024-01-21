@@ -6,10 +6,12 @@ const App = () => {
   return (
     <Router>
       <Header />
-      <Sider />
-      <Routes>
-        <Route path="/" exact element={<Home />} />
-      </Routes>
+      <div className='md:flex'>
+        <Sider />
+        <Routes>
+          <Route path="/" exact element={<Home />} />
+        </Routes>
+      </div>
     </Router>
   )
 }

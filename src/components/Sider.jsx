@@ -6,7 +6,7 @@ const Sider = () => {
     const siderOpen = useSelector(state => state.sider.open)
 
     return (
-        <Sidebar className={`absolute shadow-lg rounded-none bg-gray-200 dark:bg-gray-900 ${siderOpen && 'max-sm:hidden'}`}>
+        <Sidebar className={`max-md:absolute h-screen shadow-lg rounded-none bg-gray-200 dark:bg-gray-900 ${siderOpen && 'max-md:hidden'}`}>
             <Sidebar.Items>
                 <Sidebar.ItemGroup>
                     <Sidebar.Item href="#" icon={HiChartPie}>
