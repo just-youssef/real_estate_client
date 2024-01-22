@@ -1,35 +1,52 @@
-import { Button, DarkThemeToggle, Navbar } from 'flowbite-react';
-import { useDispatch } from 'react-redux';
+import { DarkThemeToggle, Dropdown } from 'flowbite-react';
 import { Link } from 'react-router-dom';
-import { FaThList } from "react-icons/fa";
-import { toggleSiderState } from '../lib/features/siderReducer';
+import { FaSearch } from "react-icons/fa";
+import { IoIosArrowDown } from "react-icons/io";
 
 const Header = () => {
-  const dispatch = useDispatch();
-
   return (
-    <Navbar fluid className='bg-gray-200 shadow-lg dark:bg-gray-900'>
-      <button
-      className='rounded-full mr-2 hover:bg-gray-300 dark:hover:bg-gray-700 p-3 sm:hidden'
-      onClick={()=>dispatch(toggleSiderState())}
-      >
-        <FaThList className='text-gray-500 text-xl' />
-      </button>
-      <Navbar.Brand as={Link} href="/" className='flex-grow'>
-        <div className='flex items-center gap-3'>
-          <img src="/vite.svg" className="h-9" alt="Vite Logo" />
-          <span className="text-xl font-semibold dark:text-white max-sm:hidden">RealEstate</span>
-        </div>
-      </Navbar.Brand>
+    <div className='bg-gray-200 dark:bg-gray-900'>
+      <div className='flex items-center justify-between px-4 sm:px-6 py-2 max-w-6xl mx-auto shadow-xl'>
+        <Link to="/" className=''>
+          <div className='flex items-center font-semibold'>
+            <img src="/vite.svg" className="min-w-8 w-9" alt="Vite Logo" />
+            <span className="text-xl text-gray-500 dark:text-gray-400 max-sm:hidden ml-3">Real</span>
+            <span className="text-xl text-gray-900 dark:text-gray-200 max-sm:hidden">Estate</span>
+          </div>
+        </Link>
 
-      <DarkThemeToggle className='rounded-full hover:bg-gray-300 focus:ring-0 md:mr-4 ' />
-      <Navbar.Toggle className='rounded-full hover:bg-gray-300 focus:ring-0' />
-      <Navbar.Collapse>
-        <Navbar.Link href="#">Services</Navbar.Link>
-        <Navbar.Link href="#">Pricing</Navbar.Link>
-        <Navbar.Link href="#">Contact</Navbar.Link>
-      </Navbar.Collapse>
-    </Navbar>
+        <form className='flex justify-between items-center input-bar max-sm:mx-2 max-sm:flex-grow'>
+          <input type="text" className='bg-transparent focus:ring-0 border-0 p-0 text-sm w-48 lg:w-72' placeholder='Search..' />
+          <FaSearch />
+        </form>
+
+
+        <div className='flex items-center'>
+          <DarkThemeToggle className='rounded-full hover:bg-gray-50 focus:ring-0 p-2' />
+
+          {/* large screen */}
+          <div className='flex items-center max-md:hidden'>
+            <Link to="/sign-in">
+              <button className='nav-btn px-4 py-2 text-sm'>
+                Sign In
+              </button>
+            </Link>
+            <span className='text-sm text-gray-400 dark:text-gray-600 mx-1'>OR</span>
+            <Link to="/sign-up">
+              <button className='nav-btn px-4 py-2 text-sm'>
+                Sign Up
+              </button>
+            </Link>
+          </div>
+
+          {/* small screen */}
+          <Dropdown renderTrigger={() => <span className='p-2 nav-btn md:hidden cursor-pointer focus:bg-gray-50'><IoIosArrowDown fontSize={18}/></span>}>
+            <Dropdown.Item as={Link} to="/sign-in">Sign In</Dropdown.Item>
+            <Dropdown.Item as={Link} to="/sign-up">Sign Up</Dropdown.Item>
+          </Dropdown>
+        </div>
+      </div>
+    </div>
   )
 }
 

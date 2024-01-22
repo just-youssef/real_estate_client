@@ -3,9 +3,22 @@
 @tailwind utilities;
 
 body{
-    @apply bg-gray-100 dark:bg-gray-950
+    @apply bg-gray-100 dark:bg-gray-950;
 }
 
 .primary{
     @apply text-red-600 dark:text-blue-600;
+}
+
+.input-bar{
+    @apply border rounded-lg px-3 py-2
+    bg-gray-100 dark:bg-gray-700
+    text-gray-500 dark:text-gray-300
+    border-gray-300 dark:border-gray-600
+}
+
+.nav-btn{
+    @apply rounded-full
+    text-gray-700 dark:text-gray-200
+    hover:bg-gray-50 dark:hover:bg-gray-700
 }
