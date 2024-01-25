@@ -3,13 +3,15 @@ import { Link } from 'react-router-dom';
 import { FaSearch } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from 'react-redux';
-import { clearToken } from '../lib/features/tokenReducer';
+import { clearUserData } from '../lib/features/userReducer';
 
 const Header = () => {
-  const token = useSelector((state) => state.token.value);
+  const { token, details: user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const logout = () => dispatch(clearToken());
+  const signout = () => {
+    dispatch(clearUserData());
+  };
 
   const handleSearch = (e) => {
     e.preventDefault()
@@ -40,9 +42,16 @@ const Header = () => {
           {
             // large screen
             token ?
-              <button className='nav-btn px-4 py-2 text-sm max-md:hidden' onClick={logout}>
-                Sign Out
-              </button>
+              <div className='flex items-center max-md:hidden'>
+                <Link to="/profile">
+                  <button className='nav-btn px-4 py-2 text-sm'>
+                    {user.first_name}
+                  </button>
+                </Link>
+                <button className='nav-btn px-4 py-2 text-sm' onClick={signout}>
+                  Sign Out
+                </button>
+              </div>
               :
               <div className='flex items-center max-md:hidden'>
                 <Link to="/sign-in">
@@ -62,7 +71,10 @@ const Header = () => {
           <Dropdown renderTrigger={() => <span className='p-2 nav-btn md:hidden cursor-pointer focus:bg-gray-50'><IoIosArrowDown fontSize={18} className='icon' /></span>}>
             {
               token ?
-                <Dropdown.Item onClick={logout}>Sign Out</Dropdown.Item>
+                <>
+                  <Dropdown.Item as={Link} to="/profile">{user.first_name}</Dropdown.Item>
+                  <Dropdown.Item onClick={signout}>Sign Out</Dropdown.Item>
+                </>
                 :
                 <>
                   <Dropdown.Item as={Link} to="/sign-in">Sign In</Dropdown.Item>

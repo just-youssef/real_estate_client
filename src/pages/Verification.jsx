@@ -1,15 +1,30 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { FaCheckCircle } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import { Modal } from 'flowbite-react';
 
-const Verfication = () => {
+const Verification = () => {
   const { id } = useParams();
   const [emailVerified, setEmailVerified] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+
+  const resendVerfication = async () => {
+    setOpenModal(false);
+
+    try {
+      const res = await fetch(`/api/user/verfication/resend/${id}`)
+      const data = await res.json();
+
+      // console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const checkEmailVerfication = async () => {
     try {
-      const res = await fetch(`/api/user/check-verified/${id}`)
+      const res = await fetch(`/api/user/verfication/check/${id}`)
       const data = await res.json();
 
       if (data.verified) {
@@ -28,8 +43,28 @@ const Verfication = () => {
     <div className='paper'>
       <div className='text-green-600 dark:text-green-500 flex flex-col items-center gap-5'>
         <FaCheckCircle fontSize={150} />
-        <h1>An verfication link was sent to your email, please check your inbox!</h1>
+
+        <h1 className='flex flex-col'>
+          An verfication link was sent to your email, please check your inbox!
+          {
+            !emailVerified &&
+            <button className='link w-fit' onClick={() => setOpenModal(true)}>
+              Resend Verfication Link?
+            </button>
+          }
+        </h1>
       </div>
+
+      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal.Body className='modal-body'>
+          <h1 className='text-xl mb-8 uppercase'>Please, Confirm re-sending verfication link!</h1>
+          <div className='flex gap-2 w-full'>
+            <button className='submit w-full' onClick={resendVerfication}>Confirm</button>
+            <button className='cancel w-full' onClick={() => setOpenModal(false)}>Cancel</button>
+          </div>
+        </Modal.Body>
+
+      </Modal>
 
       {
         emailVerified ?
@@ -63,4 +98,4 @@ const Verfication = () => {
   )
 }
 
-export default Verfication
+export default Verification
