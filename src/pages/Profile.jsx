@@ -10,7 +10,7 @@ const Profile = () => {
   const dispatch = useDispatch();
 
   // user data form
-  const [formData, setFormData] = useState(user);
+  const [formData, setFormData] = useState({});
   const [formDataError, setFormDataError] = useState({});
 
   // change password form
@@ -167,7 +167,7 @@ const Profile = () => {
               type='text' className={'input-bar'}
               placeholder='First Name *' required id="first_name"
               onChange={handleChange}
-              value={formData?.first_name}
+              defaultValue={user.first_name}
             />
             {
               formDataError.first_name &&
@@ -186,7 +186,7 @@ const Profile = () => {
               type='text' className={'input-bar'}
               placeholder='First Name *' required id="last_name"
               onChange={handleChange}
-              value={formData?.last_name}
+              defaultValue={user.last_name}
             />
             {
               formDataError.last_name &&
@@ -205,7 +205,7 @@ const Profile = () => {
               type='email' className={'input-bar'}
               placeholder='Email *' required id="email"
               onChange={handleChange}
-              value={formData?.email}
+              defaultValue={user.email}
             />
             {
               formDataError.email &&
