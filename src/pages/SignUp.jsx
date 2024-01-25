@@ -63,7 +63,7 @@ const SignUp = () => {
 
   return (
     <div className='paper'>
-      <img src='/vite.svg' className='h-24 mb-5' />
+      <img src='/logo.png' className='w-28 mb-5' />
       <h1 className='text-2xl font-semibold mb-5'>Sign Up to
         <span className="text-gray-500 dark:text-gray-400"> Real</span>
         Estate

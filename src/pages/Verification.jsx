@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { FaCheckCircle } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Modal } from 'flowbite-react';
+import { useSelector } from 'react-redux';
 
 const Verification = () => {
+  const token = useSelector((state) => state.user.token);
+  const navigate = useNavigate();
+
   const { id } = useParams();
   const [emailVerified, setEmailVerified] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -36,8 +40,9 @@ const Verification = () => {
   }
 
   useEffect(() => {
+    if (token) navigate('/')
     checkEmailVerfication();
-  }, [])
+  }, [token])
 
   return (
     <div className='paper'>

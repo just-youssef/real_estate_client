@@ -22,9 +22,9 @@ const Header = () => {
     <div className='bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-gray-200'>
       <div className='flex items-center justify-between py-2 w-11/12 max-w-6xl mx-auto shadow-xl'>
         <Link to="/" className=''>
-          <div className='flex items-center font-semibold'>
-            <img src="/vite.svg" className="min-w-8 w-9" alt="Vite Logo" />
-            <span className="text-xl text-gray-500 dark:text-gray-400 max-sm:hidden ml-3">Real</span>
+          <div className='flex items-end font-semibold'>
+            <img src="/logo.png" className="min-w-8 w-9" alt="Logo" />
+            <span className="text-xl text-gray-500 dark:text-gray-400 max-sm:hidden ml-2">Real</span>
             <span className="text-xl max-sm:hidden">Estate</span>
           </div>
         </Link>
@@ -40,49 +40,35 @@ const Header = () => {
           <DarkThemeToggle className='rounded-full hover:bg-gray-50 focus:ring-0 p-2' />
 
           {
-            // large screen
             token ?
-              <div className='flex items-center max-md:hidden'>
-                <Link to="/profile">
-                  <button className='nav-btn px-4 py-2 text-sm'>
-                    {user.first_name}
-                  </button>
-                </Link>
-                <button className='nav-btn px-4 py-2 text-sm' onClick={signout}>
-                  Sign Out
-                </button>
-              </div>
+              <Dropdown renderTrigger={() => <img src={user.avatar || '/default.png'} className='cursor-pointer h-9 w-9 rounded-full object-cover ml-1'/>}>
+                <Dropdown.Item as={Link} to="/profile">{user.first_name}</Dropdown.Item>
+                <Dropdown.Item onClick={signout}>Sign Out</Dropdown.Item>
+              </Dropdown>
               :
-              <div className='flex items-center max-md:hidden'>
-                <Link to="/sign-in">
-                  <button className='nav-btn px-4 py-2 text-sm'>
-                    Sign In
-                  </button>
-                </Link>
-                <span className='text-sm text-gray-400 dark:text-gray-600 mx-1'>OR</span>
-                <Link to="/sign-up">
-                  <button className='nav-btn px-4 py-2 text-sm'>
-                    Sign Up
-                  </button>
-                </Link>
-              </div>
-          }
+              <>
+                {/* large screen */}
+                <div className='flex items-center max-md:hidden'>
+                  <Link to="/sign-in">
+                    <button className='nav-btn px-4 py-2 text-sm'>
+                      Sign In
+                    </button>
+                  </Link>
+                  <span className='text-sm text-gray-400 dark:text-gray-600 mx-1'>OR</span>
+                  <Link to="/sign-up">
+                    <button className='nav-btn px-4 py-2 text-sm'>
+                      Sign Up
+                    </button>
+                  </Link>
+                </div>
 
-          <Dropdown renderTrigger={() => <span className='p-2 nav-btn md:hidden cursor-pointer focus:bg-gray-50'><IoIosArrowDown fontSize={18} className='icon' /></span>}>
-            {
-              token ?
-                <>
-                  <Dropdown.Item as={Link} to="/profile">{user.first_name}</Dropdown.Item>
-                  <Dropdown.Item onClick={signout}>Sign Out</Dropdown.Item>
-                </>
-                :
-                <>
+                {/* small screen */}
+                <Dropdown renderTrigger={() => <span className='p-2 nav-btn md:hidden cursor-pointer focus:bg-gray-50'><IoIosArrowDown fontSize={18} className='icon' /></span>}>
                   <Dropdown.Item as={Link} to="/sign-in">Sign In</Dropdown.Item>
                   <Dropdown.Item as={Link} to="/sign-up">Sign Up</Dropdown.Item>
-                </>
-            }
-
-          </Dropdown>
+                </Dropdown>
+              </>
+          }
         </div>
       </div>
     </div>

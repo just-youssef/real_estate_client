@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { setUserData } from "../lib/features/userReducer";
+import { FaCamera } from "react-icons/fa";
 
 const Profile = () => {
   const { token, details: user } = useSelector(state => state.user)
@@ -23,21 +24,21 @@ const Profile = () => {
 
   // upload image
   const uploadImage = async(e)=>{
-    setLoading(true);
 
     // extarct image from event object
     const avatar = e.target.files[0];
 
-    if(!avatar){
+    if (!avatar) {
       console.log('no image selected');
       return;
     }
-    
+
+    setLoading(true);
     const imageData = new FormData();
-    imageData.append('avatar', avatar, avatar.name);
+    imageData.append('file', avatar, avatar.name);
 
     try {
-      const res = await fetch(`/api/cloudinary/changeAvatar`, {
+      const res = await fetch(`/api/cloudinary/uploadFile`, {
         method: 'POST',
         headers: {
           'x-auth-token': token,
@@ -48,7 +49,7 @@ const Profile = () => {
       setLoading(false);
 
       if (res.ok) {
-        dispatch(setUserData({ details: data }))
+        setFormData({...formData, avatar: data.url})
       }
     } catch (error) {
       console.log(error);
@@ -150,13 +151,14 @@ const Profile = () => {
       <div className="relative mb-5 rounded-full border-gray-500 border-2">
         <label htmlFor="avatar" className={`cursor-pointer rounded-full bg-gray-800 absolute inset-0 ${loading? 'opacity-60' : 'opacity-0 hover:opacity-60'}`}>
           <span className="flex justify-center items-center h-full text-gray-200">
-            {loading ? <Spinner /> : 'Change Profile'}
+            {loading ? <Spinner /> : <span className="flex flex-col items-center"><FaCamera fontSize={18} />Change Profile</span>}
           </span>
         </label>
-        <img src={user.avatar} alt="avatar" className="h-40 rounded-full w-40 object-cover" />
+        <img src={formData.avatar || user.avatar || '/default.png'} alt="avatar" className="h-40 rounded-full w-40 object-cover" />
         <input type="file" onChange={uploadImage} className="hidden" id="avatar" disabled={loading} />
       </div>
 
+      {/* user details form */}
       <form className='flex flex-col w-full gap-2' onSubmit={handleUpdate}>
         {/* first name */}
         <div className="flex justify-between items-center">
@@ -214,7 +216,6 @@ const Profile = () => {
             }
           </div>
         </div>
-
 
         {/* submit button */}
         <button className='submit mt-2' disabled={loading}>
