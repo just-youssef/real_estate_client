@@ -1,9 +1,8 @@
 import { Modal, Spinner } from "flowbite-react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaCamera, FaCheckCircle } from "react-icons/fa";
 import { setUserData } from "../lib/features/userReducer";
-import { FaCamera } from "react-icons/fa";
 
 const Profile = () => {
   const { token, details: user } = useSelector(state => state.user)
@@ -21,6 +20,9 @@ const Profile = () => {
 
   // submit state
   const [loading, setLoading] = useState(false);
+
+  // update state
+  const [updated, setUpdated] = useState(false);
 
   // upload image
   const uploadImage = async(e)=>{
@@ -90,6 +92,7 @@ const Profile = () => {
 
       if (res.status === 200) {
         dispatch(setUserData({ details: data }))
+        setUpdated(true)
       }
     } catch (error) {
       console.log(error);
@@ -220,6 +223,14 @@ const Profile = () => {
         <button className='submit mt-2' disabled={loading}>
           {loading ? <Spinner /> : 'Update Profile'}
         </button>
+
+        {/* update state */}
+        {
+          updated &&
+          <p className="text-green-600 dark:text-green-500 flex items-center">
+            <FaCheckCircle className="pr-1" fontSize={18} />Profile updated successfully!
+          </p>
+        }
       </form>
 
       {/* trigger change password form button */}
