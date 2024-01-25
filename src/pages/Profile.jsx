@@ -24,7 +24,6 @@ const Profile = () => {
 
   // upload image
   const uploadImage = async(e)=>{
-
     // extarct image from event object
     const avatar = e.target.files[0];
 
