@@ -2,7 +2,7 @@ import { Modal, Spinner } from "flowbite-react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { FaEye, FaEyeSlash, FaCamera, FaCheckCircle } from "react-icons/fa";
-import { setUserData } from "../lib/features/userReducer";
+import { clearUserData, setUserData } from "../lib/features/userReducer";
 
 const Profile = () => {
   const { token, details: user } = useSelector(state => state.user)
@@ -13,7 +13,7 @@ const Profile = () => {
   const [formDataError, setFormDataError] = useState({});
 
   // change password form
-  const [openModal, setOpenModal] = useState(false);
+  const [openPasswordForm, setOpenPasswordForm] = useState(false);
   const [passwordForm, setPasswordForm] = useState({});
   const [showPassword, setShowPassword] = useState({ old: false, new: false, confirm: false });
   const [passwordFormError, setPasswordFormError] = useState({});
@@ -23,6 +23,31 @@ const Profile = () => {
 
   // update state
   const [updated, setUpdated] = useState(false);
+
+  // delete account
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
+  // delete account
+  const deleteAccount = async()=>{
+    setLoading(true);
+
+    try {
+      const res = await fetch(`/api/user/delete`, {
+        method: 'DELETE',
+        headers: {
+          'x-auth-token': token,
+        },
+      })
+      setLoading(false);
+
+      if(res.ok){
+        setConfirmDelete(false);
+        dispatch(clearUserData());
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   // upload image
   const uploadImage = async(e)=>{
@@ -143,7 +168,7 @@ const Profile = () => {
 
   // close password form
   const closePasswordForm = () => {
-    setOpenModal(false)
+    setOpenPasswordForm(false);
     setPasswordFormError({});
   }
 
@@ -151,12 +176,12 @@ const Profile = () => {
     <div className="paper">
       {/* profile image */}
       <div className="relative mb-5 rounded-full border-gray-500 border-2">
-        <label htmlFor="avatar" className={`cursor-pointer rounded-full bg-gray-800 absolute inset-0 ${loading? 'opacity-60' : 'opacity-0 hover:opacity-60'}`}>
+        <label htmlFor="avatar" className={`rounded-full bg-gray-800 absolute inset-0 ${loading? 'opacity-60' : 'opacity-0 hover:opacity-60 cursor-pointer'}`}>
           <span className="flex justify-center items-center h-full text-gray-200">
             {loading ? <Spinner /> : <span className="flex flex-col items-center"><FaCamera fontSize={18} />Change Profile</span>}
           </span>
         </label>
-        <img src={formData.avatar || user.avatar || '/default.png'} alt="avatar" className="h-40 rounded-full w-40 object-cover" />
+        <img src={formData.avatar || user.avatar || '/default_profile.png'} alt="avatar" className="h-40 rounded-full w-40 object-cover" />
         <input type="file" onChange={uploadImage} className="hidden" id="avatar" disabled={loading} />
       </div>
 
@@ -235,99 +260,131 @@ const Profile = () => {
 
       {/* trigger change password form button */}
       <div className="flex justify-start w-full mt-4">
-        <button type="button" disabled={loading} className='link' onClick={() => setOpenModal(true)}>Change Password?</button>
+        <button type="button" disabled={loading} className='link' onClick={() => setOpenPasswordForm(true)}>Change Password?</button>
       </div>
       
       {/* change password form */}
-      <Modal show={openModal} onClose={closePasswordForm} position="center">
-        <Modal.Body className='modal-body'>
-          <h1 className='text-xl mb-5 uppercase'>change password</h1>
-          <form className='flex flex-col gap-2 w-full' onSubmit={changePassword}>
-            {/* old password */}
-            <div className='w-full'>
-              <div className='relative'>
-                <input type={showPassword.old ? 'text' : 'password'}
-                  className={passwordFormError.old_password ? `input-bar-error w-full` : 'input-bar w-full'}
-                  placeholder='Old Password *' required id="old_password"
-                  onChange={handlePasswordFormChange}
-                />
-                <button type='button' className='p-1 absolute inset-y-0 end-2.5'
-                  onClick={() => setShowPassword({ ...showPassword, old: !showPassword.old })}>
-                  {
-                    showPassword.old ?
-                      <FaEye className={passwordFormError.old_password ? 'icon-error text-lg' : 'icon text-lg'} />
-                      :
-                      <FaEyeSlash className={passwordFormError.old_password ? 'icon-error text-lg' : 'icon text-lg'} />
-                  }
-                </button>
+      <Modal popup show={openPasswordForm} onClose={closePasswordForm} position="center">
+        <div className="modal-container">
+          <Modal.Header />
+          <Modal.Body className='modal-body'>
+            <h1 className='text-xl mb-5 uppercase'>change password</h1>
+            <form className='flex flex-col gap-2 w-full' onSubmit={changePassword}>
+              {/* old password */}
+              <div className='w-full'>
+                <div className='relative'>
+                  <input type={showPassword.old ? 'text' : 'password'}
+                    className={passwordFormError.old_password ? `input-bar-error w-full` : 'input-bar w-full'}
+                    placeholder='Old Password *' required id="old_password"
+                    onChange={handlePasswordFormChange}
+                  />
+                  <button type='button' className='p-1 absolute inset-y-0 end-2.5'
+                    onClick={() => setShowPassword({ ...showPassword, old: !showPassword.old })}>
+                    {
+                      showPassword.old ?
+                        <FaEye className={passwordFormError.old_password ? 'icon-error text-lg' : 'icon text-lg'} />
+                        :
+                        <FaEyeSlash className={passwordFormError.old_password ? 'icon-error text-lg' : 'icon text-lg'} />
+                    }
+                  </button>
+                </div>
+                {passwordFormError.old_password && <small className='text-red-700 ml-3'>{passwordFormError.old_password}</small>}
               </div>
-              {passwordFormError.old_password && <small className='text-red-700 ml-3'>{passwordFormError.old_password}</small>}
-            </div>
 
-            {/* new password */}
-            <div className='w-full'>
-              <div className='relative'>
-                <input type={showPassword.new ? 'text' : 'password'}
-                  className={passwordFormError.new_password ? `input-bar-error w-full` : 'input-bar w-full'}
-                  placeholder='New Password *' required id="new_password"
-                  onChange={handlePasswordFormChange}
-                />
-                <button type='button' className='p-1 absolute inset-y-0 end-2.5'
-                  onClick={() => setShowPassword({ ...showPassword, new: !showPassword.new })}>
-                  {
-                    showPassword.new ?
-                      <FaEye className={passwordFormError.new_password ? 'icon-error text-lg' : 'icon text-lg'} />
-                      :
-                      <FaEyeSlash className={passwordFormError.new_password ? 'icon-error text-lg' : 'icon text-lg'} />
-                  }
-                </button>
+              {/* new password */}
+              <div className='w-full'>
+                <div className='relative'>
+                  <input type={showPassword.new ? 'text' : 'password'}
+                    className={passwordFormError.new_password ? `input-bar-error w-full` : 'input-bar w-full'}
+                    placeholder='New Password *' required id="new_password"
+                    onChange={handlePasswordFormChange}
+                  />
+                  <button type='button' className='p-1 absolute inset-y-0 end-2.5'
+                    onClick={() => setShowPassword({ ...showPassword, new: !showPassword.new })}>
+                    {
+                      showPassword.new ?
+                        <FaEye className={passwordFormError.new_password ? 'icon-error text-lg' : 'icon text-lg'} />
+                        :
+                        <FaEyeSlash className={passwordFormError.new_password ? 'icon-error text-lg' : 'icon text-lg'} />
+                    }
+                  </button>
+                </div>
+                {
+                  passwordFormError.new_password &&
+                  <small className='text-red-700 ml-3 flex flex-col'>
+                    {passwordFormError.new_password}
+                    {
+                      !passwordFormError.same &&
+                      <ol className='list-decimal ml-4'>
+                        <li>must be 8 chars length at least</li>
+                        <li>must contain 1 letter at least</li>
+                        <li>must contain 1 digit at least</li>
+                      </ol>
+                    }
+                  </small>
+                }
               </div>
-              {
-                passwordFormError.new_password &&
-                <small className='text-red-700 ml-3 flex flex-col'>
-                  {passwordFormError.new_password}
-                  {
-                    !passwordFormError.same &&
-                    <ol className='list-decimal ml-4'>
-                      <li>must be 8 chars length at least</li>
-                      <li>must contain 1 letter at least</li>
-                      <li>must contain 1 digit at least</li>
-                    </ol>
-                  }
-                </small>
-              }
-            </div>
 
-            {/* confirm new password */}
-            <div className='w-full'>
-              <div className='relative'>
-                <input type={showPassword.confirm ? 'text' : 'password'}
-                  className={passwordFormError.confirm_new_password ? `input-bar-error w-full` : 'input-bar w-full'}
-                  placeholder='Confirm New Password *' required id="confirm_new_password"
-                  onChange={handlePasswordFormChange}
-                />
-                <button type='button' className='p-1 absolute inset-y-0 end-2.5'
-                  onClick={() => setShowPassword({ ...showPassword, confirm: !showPassword.confirm })}>
-                  {
-                    showPassword.confirm ?
-                      <FaEye className={passwordFormError.confirm_new_password ? 'icon-error text-lg' : 'icon text-lg'} />
-                      :
-                      <FaEyeSlash className={passwordFormError.confirm_new_password ? 'icon-error text-lg' : 'icon text-lg'} />
-                  }
-                </button>
+              {/* confirm new password */}
+              <div className='w-full'>
+                <div className='relative'>
+                  <input type={showPassword.confirm ? 'text' : 'password'}
+                    className={passwordFormError.confirm_new_password ? `input-bar-error w-full` : 'input-bar w-full'}
+                    placeholder='Confirm New Password *' required id="confirm_new_password"
+                    onChange={handlePasswordFormChange}
+                  />
+                  <button type='button' className='p-1 absolute inset-y-0 end-2.5'
+                    onClick={() => setShowPassword({ ...showPassword, confirm: !showPassword.confirm })}>
+                    {
+                      showPassword.confirm ?
+                        <FaEye className={passwordFormError.confirm_new_password ? 'icon-error text-lg' : 'icon text-lg'} />
+                        :
+                        <FaEyeSlash className={passwordFormError.confirm_new_password ? 'icon-error text-lg' : 'icon text-lg'} />
+                    }
+                  </button>
+                </div>
+                {passwordFormError.confirm_new_password && <small className='text-red-700 ml-3'>{passwordFormError.confirm_new_password}</small>}
               </div>
-              {passwordFormError.confirm_new_password && <small className='text-red-700 ml-3'>{passwordFormError.confirm_new_password}</small>}
-            </div>
 
-            {/* submit change password */}
-            <div className="flex mt-2 gap-2">
-              <button type='submit' className='submit w-full' disabled={loading}>
-                {loading ? <Spinner /> : 'Confirm'}
-              </button>
-              <button type="button" className='cancel w-full' onClick={closePasswordForm}>Cancel</button>
-            </div>
-          </form>
-        </Modal.Body>
+              {/* submit change password */}
+              <div className="flex mt-2 gap-2 justify-center">
+                {loading ? <Spinner />
+                  :
+                  <>
+                    <button type='submit' className='submit w-full'>Confirm</button>
+                    <button type="button" className='cancel w-full' onClick={closePasswordForm}>Cancel</button>
+                  </>
+                }
+              </div>
+            </form>
+          </Modal.Body>
+        </div>
+      </Modal>
+
+      {/* sign out */}
+      <button className="cancel mt-10 w-full" onClick={() => dispatch(clearUserData())} disabled={loading}>
+        {loading ? <Spinner /> : 'sign out'}
+      </button>
+
+      {/* delete account */}
+      <button className="delete mt-2 w-full" onClick={() => setConfirmDelete(true)} disabled={loading}>
+        {loading ? <Spinner /> : 'delete account'}
+      </button>
+      <Modal popup show={confirmDelete} onClose={() => setConfirmDelete(false)}>
+        <div className="modal-container">
+          <Modal.Header />
+          <Modal.Body className='modal-body'>
+            <h1 className='text-xl mb-8 uppercase text-center'>Are you sure you want to delete your account?</h1>
+            {
+              loading ? <Spinner />
+                :
+                <div className='flex gap-2 w-full'>
+                  <button className='delete w-full' onClick={deleteAccount}>Confirm Delete</button>
+                  <button className='cancel w-full' onClick={() => setConfirmDelete(false)}>Cancel</button>
+                </div>
+            }
+          </Modal.Body>
+        </div>
       </Modal>
     </div>
   )

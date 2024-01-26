@@ -10,17 +10,14 @@ const userSlice = createSlice({
         setUserData: (state, action) => { 
             Object.keys(action.payload).forEach(key=>state[key]=action.payload[key])
          },
-        updateAvatar: (state, action) => {
-            state.data.avatar = action.payload.url
-        },
         clearUserData: (state) => { 
             state.token = "";
-            state.data = null;
+            state.details = null;
         },
     },
 })
 
 // Extract and export each action creator by name
-export const { setToken, clearToken, setUserData, clearUserData, updateAvatar } = userSlice.actions
+export const { setToken, clearToken, setUserData, clearUserData } = userSlice.actions
 // Export the reducer, either as a default or named export
 export default userSlice.reducer

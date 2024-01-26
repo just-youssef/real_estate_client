@@ -40,14 +40,14 @@ body{
 
 .submit{
     @apply
-    rounded-full px-3 py-2 text-gray-200
+    rounded-full px-4 py-2 text-gray-200
     bg-blue-700 active:bg-blue-800 uppercase
     disabled:bg-gray-700
 }
 
 .cancel{
     @apply
-    rounded-full px-3 py-2
+    rounded-full px-4 py-2
     text-gray-200 bg-gray-500
     active:bg-gray-600 uppercase
     disabled:bg-gray-700
@@ -65,13 +65,22 @@ body{
     @apply text-red-700 dark:text-red-500
 }
 
+.modal-container{
+    @apply bg-gray-200 dark:bg-gray-700 rounded-lg
+}
+
 .modal-body{
     @apply
     flex flex-col justify-center items-center
-    text-gray-900 dark:text-gray-200 my-2 sm:mx-6
-
+    text-gray-900 dark:text-gray-200 mb-2 sm:mx-6
 }
 
+.delete{
+    @apply
+    bg-red-700 active:bg-red-800 text-gray-200
+    uppercase rounded-full py-2 px-4
+    disabled:bg-gray-700
+}
 /* input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,

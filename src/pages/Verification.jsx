@@ -60,15 +60,17 @@ const Verification = () => {
         </h1>
       </div>
 
-      <Modal show={openModal} onClose={() => setOpenModal(false)}>
-        <Modal.Body className='modal-body'>
-          <h1 className='text-xl mb-8 uppercase'>Please, Confirm re-sending verfication link!</h1>
-          <div className='flex gap-2 w-full'>
-            <button className='submit w-full' onClick={resendVerfication}>Confirm</button>
-            <button className='cancel w-full' onClick={() => setOpenModal(false)}>Cancel</button>
-          </div>
-        </Modal.Body>
-
+      <Modal popup show={openModal} onClose={() => setOpenModal(false)}>
+        <div className="modal-container">
+          <Modal.Header />
+          <Modal.Body className='modal-body'>
+            <h1 className='text-xl mb-8 uppercase text-center'>Please, Confirm re-sending verfication link!</h1>
+            <div className='flex gap-2 w-full'>
+              <button className='submit w-full' onClick={resendVerfication}>Confirm</button>
+              <button className='cancel w-full' onClick={() => setOpenModal(false)}>Cancel</button>
+            </div>
+          </Modal.Body>
+        </div>
       </Modal>
 
       {

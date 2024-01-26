@@ -41,7 +41,7 @@ const Header = () => {
 
           {
             token ?
-              <Dropdown renderTrigger={() => <img src={user.avatar || '/default.png'} className='cursor-pointer h-9 w-9 rounded-full object-cover ml-1'/>}>
+              <Dropdown renderTrigger={() => <img src={user.avatar || '/default_profile.png'} className='cursor-pointer h-9 w-9 rounded-full object-cover ml-1'/>}>
                 <Dropdown.Item as={Link} to="/profile">{user.first_name}</Dropdown.Item>
                 <Dropdown.Item onClick={signout}>Sign Out</Dropdown.Item>
               </Dropdown>
