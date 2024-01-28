@@ -4,11 +4,20 @@ import { IoCloudUploadOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { MdErrorOutline, MdDelete } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
-const ListingForm = ({ listing }) => {
+const ListingForm = ({ listing, handleFormAction }) => {
   const token = useSelector((state) => state.user.token);
+  const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({ imageUrls: [] });
+  const [formData, setFormData] = useState(listing || {
+    imageUrls: [],
+    type: "rent",
+    parking: false,
+    furnished: false,
+    offer: false,
+  });
+
   const [formDataError, setFormDataError] = useState({});
   const [loading, setLoading] = useState(false);
   // console.log(formData);
@@ -61,18 +70,49 @@ const ListingForm = ({ listing }) => {
   }
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
-    })
+    if (["rent", "sell"].includes(e.target.id)) {
+      setFormData({
+        ...formData,
+        type: e.target.id
+      })
+    } else if (["parking", "furnished", "offer"].includes(e.target.id)) {
+      setFormData({
+        ...formData,
+        [e.target.id]: e.target.checked,
+      })
+    } else {
+      setFormData({
+        ...formData,
+        [e.target.id]: e.target.value,
+      })
+    }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (formData.imageUrls == 0) {
-      setFormDataError({ ...formDataError, imageUrls: "Must upload at least 1 image for gallery" })
+      setFormDataError({
+        ...formDataError,
+        imageUrls: "Must upload at least 1 image for gallery!"
+      })
       return;
+    }
+
+    if (+formData.discountPrice >= +formData.regularPrice) {
+      setFormDataError({
+        ...formDataError,
+        discountPrice: "Discounted Price must be lower than Regular Price!"
+      });
+      return;
+    }
+
+    setLoading(true)
+    const [res, data] = await handleFormAction(formData);
+    setLoading(false)
+
+    if(res.ok){
+      navigate(`/listing/${data.listingID}`)
     }
   }
 
@@ -91,35 +131,35 @@ const ListingForm = ({ listing }) => {
       <form className='flex flex-col gap-2 w-full' onSubmit={handleSubmit}>
         <div className='flex flex-col gap-2 w-full'>
           {/* text inputs */}
-          <input required placeholder='Name *' id='name' className="input-box" onChange={handleChange} />
-          <textarea required placeholder='Description *' id='description' className="input-box" onChange={handleChange} />
-          <input required placeholder='Address *' id='address' className="input-box" onChange={handleChange} />
+          <input required placeholder='Title *' id='title' className="input-box" onChange={handleChange} value={formData.title || ""} />
+          <textarea required placeholder='Description *' id='description' className="input-box" onChange={handleChange} value={formData.description || ""} />
+          <input required placeholder='Address *' id='address' className="input-box" onChange={handleChange} value={formData.address || ""} />
 
           {/* bool inputs */}
           <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5'>
             {/* sell */}
             <div className='flex items-center'>
-              <input type="checkbox" className="checkbox" id='sell' onChange={(e) => console.log(e.target.value)} />
+              <input type="checkbox" className="checkbox" id='sell' onChange={handleChange} checked={formData.type=="sell"} />
               <label htmlFor="sell" className="pl-1">Sell</label>
             </div>
             {/* rent */}
             <div className='flex items-center'>
-              <input type="checkbox" className="checkbox" id='rent' />
+              <input type="checkbox" className="checkbox" id='rent' onChange={handleChange} checked={formData.type=="rent"}/>
               <label htmlFor="rent" className="pl-1">Rent</label>
             </div>
             {/* furnished */}
             <div className='flex items-center'>
-              <input type="checkbox" className="checkbox" id='furnished' />
+              <input type="checkbox" className="checkbox" id='furnished' onChange={handleChange} checked={formData.furnished} />
               <label htmlFor="furnished" className="pl-1">Furnished</label>
             </div>
             {/* parking */}
             <div className='flex items-center'>
-              <input type="checkbox" className="checkbox" id='parking' />
+              <input type="checkbox" className="checkbox" id='parking' onChange={handleChange} checked={formData.parking} />
               <label htmlFor="parking" className="pl-1">Parking</label>
             </div>
             {/* offer */}
             <div className='flex items-center'>
-              <input type="checkbox" className="checkbox" id='offer' />
+              <input type="checkbox" className="checkbox" id='offer' onChange={handleChange} checked={formData.offer} />
               <label htmlFor="offer" className="pl-1">Offer</label>
             </div>
           </div>
@@ -130,35 +170,46 @@ const ListingForm = ({ listing }) => {
               {/* number of bedrooms */}
               <div className='flex flex-col w-full'>
                 <label htmlFor="bedrooms">Bedrooms *</label>
-                <input required placeholder="Number of bedrooms" type="number" className="input-box w-full" id='bedrooms' min={1} max={10} onChange={handleChange} />
+                <input required placeholder="Number of bedrooms" type="number" className="input-box w-full" id='bedrooms' min={1} max={10} onChange={handleChange} value={formData.bedrooms || ""} />
               </div>
 
               {/* number of bathrooms */}
               <div className='flex flex-col w-full'>
                 <label htmlFor="bathrooms">Bathrooms *</label>
-                <input required placeholder="Number of bathrooms" type="number" className="input-box w-full" id='bathrooms' min={1} max={10} onChange={handleChange} />
+                <input required placeholder="Number of bathrooms" type="number" className="input-box w-full" id='bathrooms' min={1} max={10} onChange={handleChange} value={formData.bathrooms || ""} />
               </div>
             </div>
 
             {/* regular price */}
             <div className='flex flex-col'>
               <label htmlFor="regularPrice">
-                Regular Price
-                <span className="text-sm text-gray-500 px-1">(EGP/Month)</span>
+                <span className="pr-1">Regular Price</span>
+                {formData.type == "rent" && <span className="text-sm text-gray-500 pr-1">(EGP/Month)</span>}
                 *
               </label>
-              <input required placeholder="Regular price" type="number" className="input-box w-full" id='regularPrice' onChange={handleChange} />
+              <input min={50} required placeholder="Regular price (in EGP)" type="number" className="input-box w-full" id='regularPrice' onChange={handleChange} value={formData.regularPrice || ""} />
             </div>
 
-            {/* discount price */}
-            <div className='flex flex-col'>
-              <label htmlFor="discountPrice">
-                Discounted Price
-                <span className="text-sm text-gray-500 px-1">(EGP/Month)</span>
-                *
-              </label>
-              <input required placeholder="Price after discount" type="number" className="input-box w-full" id='discountPrice' onChange={handleChange} />
-            </div>
+            {/* discounted price */}
+            {
+              formData.offer &&
+              <div className='flex flex-col'>
+                <label htmlFor="discountPrice">
+                  Discounted Price
+                  {formData.type == "rent" && <span className="text-sm text-gray-500 px-1">(EGP/Month)</span>}
+                  *
+                </label>
+                <input min={50} required={formData.offer} placeholder="Price after discount (in EGP)" type="number" className="input-box w-full" id='discountPrice' onChange={handleChange} value={formData.discountPrice || ""} />
+                {/* error */}
+                {
+                  formDataError.discountPrice &&
+                  <small className="text-red-700 flex items-center gap-0.5">
+                    <MdErrorOutline />
+                    {formDataError.discountPrice}
+                  </small>
+                }
+              </div>
+            }
           </div>
         </div>
 
@@ -217,7 +268,6 @@ const ListingForm = ({ listing }) => {
             </small>
           }
         </div>
-
 
         {/* submit button */}
         <button className="submit mt-2" disabled={loading}>

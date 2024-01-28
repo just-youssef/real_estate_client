@@ -12,6 +12,7 @@ const App = () => {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/verification/:id" element={<Verification />} />
         <Route path="/verification-confirm/:id/:token" element={<VerificationConfirm />} />
+        <Route path="/listing/:id" element={<ListingDetails />} />
         <Route element={<Private />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/listing/create" element={<CreateListing />} />
