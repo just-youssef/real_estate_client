@@ -7,6 +7,7 @@ import VerificationConfirm from "./VerificationConfirm";
 import CreateListing from "./CreateListing";
 import UpdateListing from "./UpdateListing";
 import ListingDetails from "./ListingDetails";
+import ListingGallery from "./ListingGallery";
 
 export {
     Home,
@@ -17,5 +18,6 @@ export {
     VerificationConfirm,
     CreateListing,
     UpdateListing,
-    ListingDetails
+    ListingDetails,
+    ListingGallery,
 }

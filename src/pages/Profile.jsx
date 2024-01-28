@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { FaEye, FaEyeSlash, FaCamera, FaCheckCircle } from "react-icons/fa";
 import { clearUserData, setUserData } from "../lib/features/userReducer";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const { token, details: user } = useSelector(state => state.user)
@@ -253,6 +254,11 @@ const Profile = () => {
           </p>
         }
       </form>
+
+      {/* gallery button */}
+      <Link to="/listing/gallery" className='gallery w-full mt-2' disabled={loading}>
+        {loading ? <Spinner /> : 'Show Listing Gallery'}
+      </Link>
 
       {/* trigger change password form button */}
       <div className="flex justify-start w-full mt-4">
