@@ -11,7 +11,8 @@ body{
 }
 
 .input-bar{
-    @apply border rounded-full px-3 py-2
+    @apply
+    border rounded-full px-3 py-2
     bg-gray-100 dark:bg-gray-700
     border-gray-300 dark:border-gray-600
 }
@@ -24,7 +25,8 @@ body{
 }
 
 .nav-btn{
-    @apply rounded-full
+    @apply
+    rounded-full px-4 py-2
     text-gray-700 dark:text-gray-200
     hover:bg-gray-50 dark:hover:bg-gray-700
 }
@@ -33,7 +35,7 @@ body{
     @apply
     flex flex-col justify-center items-center
     my-10 mx-auto p-8
-    shadow-xl rounded border border-gray-300 dark:border-gray-600
+    shadow-xl rounded-lg border border-gray-300 dark:border-gray-800
     w-11/12 max-w-xl
     bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-gray-200 
 }
@@ -81,6 +83,46 @@ body{
     uppercase rounded-full py-2 px-4
     disabled:bg-gray-700
 }
+
+.form-paper{
+    @apply
+    bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-gray-200 
+    flex flex-col justify-center items-center
+    my-8 mx-auto p-8 max-sm:px-6 rounded-lg w-11/12 max-w-3xl shadow-xl
+    border border-gray-300 dark:border-gray-800
+}
+
+.input-box{
+    @apply
+    border rounded-lg px-3 py-2
+    bg-gray-100 dark:bg-gray-700
+    border-gray-300 dark:border-gray-600
+    focus:outline-none focus:border-blue-500 dark:focus:border-blue-600
+}
+
+.input-box-error{
+    @apply rounded-3xl
+    bg-red-50 text-red-700 placeholder-red-700 
+    border border-red-500 focus:ring-red-500 focus:border-red-500
+    dark:bg-gray-700 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500
+}
+
+.checkbox{
+    @apply
+    rounded-full text-green-500 dark:text-green-600
+    focus:ring-offset-0 focus:ring-0
+    bg-gray-100 dark:bg-gray-700
+}
+
+.upload-img{
+    @apply
+    flex flex-col items-center justify-center
+    p-4 rounded-lg cursor-pointer h-40
+    border-2 border-dashed border-gray-500
+    bg-gray-100 dark:bg-gray-700
+    text-gray-700 dark:text-gray-200
+}
+
 /* input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,

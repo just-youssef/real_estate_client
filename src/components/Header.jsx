@@ -1,9 +1,11 @@
 import { DarkThemeToggle, Dropdown } from 'flowbite-react';
 import { Link } from 'react-router-dom';
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaPlus } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from 'react-redux';
 import { clearUserData } from '../lib/features/userReducer';
+import { IoPerson } from "react-icons/io5";
+import { PiSignOutBold } from "react-icons/pi";
 
 const Header = () => {
   const { token, details: user } = useSelector((state) => state.user);
@@ -19,8 +21,8 @@ const Header = () => {
   }
 
   return (
-    <div className='bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-gray-200'>
-      <div className='flex items-center justify-between py-2 w-11/12 max-w-6xl mx-auto shadow-xl'>
+    <div className='bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-gray-200 shadow-xl'>
+      <div className='flex items-center justify-between py-2 w-11/12 max-w-6xl mx-auto'>
         <Link to="/" className=''>
           <div className='flex items-end font-semibold'>
             <img src="/logo.png" className="min-w-8 w-9" alt="Logo" />
@@ -38,25 +40,38 @@ const Header = () => {
 
         <div className='flex items-center'>
           <DarkThemeToggle className='rounded-full hover:bg-gray-50 focus:ring-0 p-2' />
-
           {
             token ?
-              <Dropdown renderTrigger={() => <img src={user.avatar || '/default_profile.png'} className='cursor-pointer h-9 w-9 rounded-full object-cover ml-1'/>}>
-                <Dropdown.Item as={Link} to="/profile">{user.first_name}</Dropdown.Item>
-                <Dropdown.Item onClick={signout}>Sign Out</Dropdown.Item>
-              </Dropdown>
+              <>
+                <Link to="/listing/create" className='nav-btn text-sm max-md:hidden flex items-center gap-1.5'>
+                  <FaPlus />Create New Listing
+                </Link>
+                <Dropdown
+                  renderTrigger={() => <img src={user.avatar || '/default_profile.png'} className='cursor-pointer h-9 w-9 rounded-full object-cover ml-1' />}
+                >
+                  <Dropdown.Item as={Link} to="/listing/create" className='flex items-center w-full gap-1.5 md:hidden'>
+                    <FaPlus /> Create New Listing
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/profile" className='flex items-center justify-center gap-1 w-full'>
+                    <IoPerson fontSize={16} /> {user.first_name}{" "}{user.last_name}
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={signout} className='flex items-center justify-center gap-1 w-full'>
+                    <PiSignOutBold fontSize={18} /> Sign Out
+                  </Dropdown.Item>
+                </Dropdown>
+              </>
               :
               <>
                 {/* large screen */}
                 <div className='flex items-center max-md:hidden'>
                   <Link to="/sign-in">
-                    <button className='nav-btn px-4 py-2 text-sm'>
+                    <button className='nav-btn text-sm'>
                       Sign In
                     </button>
                   </Link>
                   <span className='text-sm text-gray-400 dark:text-gray-600 mx-1'>OR</span>
                   <Link to="/sign-up">
-                    <button className='nav-btn px-4 py-2 text-sm'>
+                    <button className='nav-btn text-sm'>
                       Sign Up
                     </button>
                   </Link>

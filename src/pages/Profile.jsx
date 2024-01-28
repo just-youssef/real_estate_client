@@ -53,11 +53,7 @@ const Profile = () => {
   const uploadImage = async(e)=>{
     // extarct image from event object
     const avatar = e.target.files[0];
-
-    if (!avatar) {
-      console.log('no image selected');
-      return;
-    }
+    if (!avatar) return;
 
     setLoading(true);
     const imageData = new FormData();
@@ -175,7 +171,7 @@ const Profile = () => {
   return (
     <div className="paper">
       {/* profile image */}
-      <div className="relative mb-5 rounded-full border-gray-500 border-2">
+      <div className="relative mb-5 rounded-full border-gray-400 dark:border-gray-600 border-2">
         <label htmlFor="avatar" className={`rounded-full bg-gray-800 absolute inset-0 ${loading? 'opacity-60' : 'opacity-0 hover:opacity-60 cursor-pointer'}`}>
           <span className="flex justify-center items-center h-full text-gray-200">
             {loading ? <Spinner /> : <span className="flex flex-col items-center"><FaCamera fontSize={18} />Change Profile</span>}
@@ -188,9 +184,9 @@ const Profile = () => {
       {/* user details form */}
       <form className='flex flex-col w-full gap-2' onSubmit={handleUpdate}>
         {/* first name */}
-        <div className="flex justify-between items-center">
-          <label htmlFor="first_name" className="w-1/4">First Name:</label>
-          <div className="flex flex-col w-3/4">
+        <div className="flex justify-between items-center max-sm:flex-col max-sm:items-start">
+          <label htmlFor="first_name" className="sm:w-1/4">First Name:</label>
+          <div className="flex flex-col w-3/4 max-sm:w-full">
             <input
               type='text' className={'input-bar'}
               placeholder='First Name *' required id="first_name"
@@ -207,9 +203,9 @@ const Profile = () => {
         </div>
 
         {/* last name */}
-        <div className="flex justify-between items-center">
-          <label htmlFor="last_name" className="w-1/4">Last Name:</label>
-          <div className="flex flex-col w-3/4">
+        <div className="flex justify-between items-center max-sm:flex-col max-sm:items-start">
+          <label htmlFor="last_name" className="sm:w-1/4">Last Name:</label>
+          <div className="flex flex-col w-3/4 max-sm:w-full">
             <input
               type='text' className={'input-bar'}
               placeholder='First Name *' required id="last_name"
@@ -226,9 +222,9 @@ const Profile = () => {
         </div>
 
         {/* email */}
-        <div className="flex justify-between items-center">
-          <label htmlFor="email" className="w-1/4">Email:</label>
-          <div className="flex flex-col w-3/4">
+        <div className="flex justify-between items-center max-sm:flex-col max-sm:items-start">
+          <label htmlFor="email" className="sm:w-1/4">Email:</label>
+          <div className="flex flex-col w-3/4 max-sm:w-full">
             <input
               type='email' className={'input-bar'}
               placeholder='Email *' required id="email"
