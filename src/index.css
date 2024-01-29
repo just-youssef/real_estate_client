@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body{
-    @apply bg-gray-100 dark:bg-gray-950;
+    @apply bg-gray-200 dark:bg-gray-950;
 }
 
 .primary{
@@ -24,11 +24,16 @@ body{
     dark:bg-gray-700 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500
 }
 
+.nav-paper{
+    @apply
+    bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-200 shadow-xl
+}
+
 .nav-btn{
     @apply
     rounded-full px-4 py-2
     text-gray-700 dark:text-gray-200
-    hover:bg-gray-50 dark:hover:bg-gray-700
+    hover:bg-gray-200 dark:hover:bg-gray-700
 }
 
 .paper{
@@ -37,21 +42,20 @@ body{
     my-10 mx-auto p-8
     shadow-xl rounded-lg border border-gray-300 dark:border-gray-800
     w-11/12 max-w-xl
-    bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-gray-200 
+    bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-200 
 }
 
 .submit{
     @apply
-    rounded-full px-4 py-2 text-gray-200
+    rounded-full px-4 py-2 text-gray-200 text-center
     bg-blue-700 active:bg-blue-800 uppercase
     disabled:bg-gray-700
 }
 
 .cancel{
     @apply
-    rounded-full px-4 py-2
-    text-gray-200 bg-gray-500
-    active:bg-gray-600 uppercase
+    rounded-full px-4 py-2 uppercase
+    text-gray-200 bg-gray-500 active:bg-gray-600
     disabled:bg-gray-700
 }
 
@@ -68,7 +72,7 @@ body{
 }
 
 .modal-container{
-    @apply bg-gray-200 dark:bg-gray-700 rounded-lg
+    @apply bg-gray-100 dark:bg-gray-700 rounded-lg
 }
 
 .modal-body{
@@ -79,14 +83,15 @@ body{
 
 .delete{
     @apply
-    bg-red-700 active:bg-red-800 text-gray-200
+    bg-red-600 active:bg-red-700 text-gray-200
+    dark:bg-red-700 dark:active:bg-red-800
     uppercase rounded-full py-2 px-4
     disabled:bg-gray-700
 }
 
 .form-paper{
     @apply
-    bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-gray-200 
+    bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-200 
     flex flex-col justify-center items-center
     my-8 mx-auto p-8 max-sm:px-6 rounded-lg w-11/12 max-w-3xl shadow-xl
     border border-gray-300 dark:border-gray-800
@@ -100,16 +105,9 @@ body{
     focus:outline-none focus:border-blue-500 dark:focus:border-blue-600
 }
 
-.input-box-error{
-    @apply rounded-3xl
-    bg-red-50 text-red-700 placeholder-red-700 
-    border border-red-500 focus:ring-red-500 focus:border-red-500
-    dark:bg-gray-700 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500
-}
-
 .checkbox{
     @apply
-    rounded-full text-green-500 dark:text-green-600
+    rounded-full text-green-600 dark:text-green-500
     focus:ring-offset-0 focus:ring-0
     bg-gray-100 dark:bg-gray-700
 }
@@ -132,7 +130,7 @@ body{
 
 .card{
     @apply
-    bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-gray-200 
+    bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200 
     flex flex-col justify-center items-start shadow-xl
     border border-gray-300 dark:border-gray-800 rounded-lg
     px-6 pb-6 pt-4
@@ -140,16 +138,17 @@ body{
 
 .card-btn{
     @apply
-    rounded-full p-1
+    rounded-full p-2
     text-gray-700 dark:text-gray-200
-    hover:bg-gray-50 dark:hover:bg-gray-700
+    hover:bg-gray-200 dark:hover:bg-gray-700
 }
 
 .details-paper{
     @apply
-    bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-gray-200 
+    bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-200 
     flex flex-col justify-center items-start
-    my-8 mx-auto pb-8 pt-4 px-8 max-sm:px-6 rounded-lg w-11/12 max-w-3xl shadow-xl
+    my-8 mx-auto pb-8 pt-4 px-8 max-sm:px-6
+    rounded-lg w-11/12 max-w-3xl shadow-xl
     border border-gray-300 dark:border-gray-800
 }
 /* input:-webkit-autofill,

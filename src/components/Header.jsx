@@ -21,7 +21,7 @@ const Header = () => {
   }
 
   return (
-    <div className='bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-gray-200 shadow-xl'>
+    <div className='nav-paper'>
       <div className='flex items-center justify-between py-2 w-11/12 max-w-6xl mx-auto'>
         <Link to="/" className=''>
           <div className='flex items-end font-semibold'>
@@ -39,7 +39,7 @@ const Header = () => {
         </form>
 
         <div className='flex items-center'>
-          <DarkThemeToggle className='rounded-full hover:bg-gray-50 focus:ring-0 p-2' />
+          <DarkThemeToggle className='rounded-full hover:bg-gray-200 focus:ring-0 p-2' />
           {
             token ?
               <>
