@@ -6,7 +6,12 @@ import { Spinner } from 'flowbite-react';
 
 const Search = () => {
   const navigate = useNavigate();
-  const [searchData, setSearchData] = useState({ type: "all", sort: "createdAt", order: "desc" });
+  const [searchData, setSearchData] = useState({
+    searchTerm: "",
+    type: "all",
+    sort: "createdAt",
+    order: "desc"
+  });
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState([]);
   const [showMore, setShowMore] = useState(false);
@@ -22,7 +27,7 @@ const Search = () => {
     const sortFromUrl = urlParams.get('sort');
     const orderFromUrl = urlParams.get('order');
 
-    if (searchTermFromUrl) setSearchData({ ...searchData, searchTerm: searchTermFromUrl })
+    if (searchTermFromUrl || searchTermFromUrl === "") setSearchData({ ...searchData, searchTerm: searchTermFromUrl })
     if (typeFromUrl) setSearchData({ ...searchData, type: typeFromUrl })
     if (parkingFromUrl) setSearchData({ ...searchData, parking: parkingFromUrl })
     if (furnishedFromUrl) setSearchData({ ...searchData, furnished: furnishedFromUrl })
@@ -80,7 +85,7 @@ const Search = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const urlParams = new URLSearchParams();
-    if (searchData.searchTerm) urlParams.set('searchTerm', searchData.searchTerm);
+    if (searchData.searchTerm || searchData.searchTerm === "") urlParams.set('searchTerm', searchData.searchTerm);
     if (searchData.type) urlParams.set('type', searchData.type);
     if (searchData.parking) urlParams.set('parking', Boolean(searchData.parking));
     if (searchData.furnished) urlParams.set('furnished', Boolean(searchData.furnished));
@@ -121,7 +126,7 @@ const Search = () => {
         <div className='relative w-full'>
           <input
             type="text" className='input-bar w-full text-sm' placeholder='Search..'
-            value={searchData.searchTerm || ""} onChange={handleChange} id='searchTerm'
+            value={searchData.searchTerm} onChange={handleChange} id='searchTerm'
           />
           <div className='absolute inset-y-0 end-1 flex items-center'>
             <button className='search-btn'>

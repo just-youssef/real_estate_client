@@ -30,7 +30,7 @@ const ListingGallery = () => {
     if (listings.length == 0) return <div className='flex justify-center m-10 text-gray-500 text-3xl font-semibold'>Your Listing Gallery is Empty</div>
 
     return (
-        <main className="my-8 mx-auto w-11/12 max-w-5xl text-gray-900 dark:text-gray-200">
+        <main className="my-8 mx-auto w-11/12 max-w-6xl text-gray-900 dark:text-gray-200">
             <h1 className="text-center text-3xl max-sm:text-2xl mb-5 font-semibold">
                 <span className="text-gray-500">{user.first_name}{" "}{user.last_name}{" "}</span>
                 Listings Gallery

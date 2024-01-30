@@ -22,7 +22,7 @@ const Header = () => {
     e.preventDefault()
 
     const urlParams = new URLSearchParams(location.search);
-    if (searchTerm) urlParams.set('searchTerm', searchTerm);
+    urlParams.set('searchTerm', searchTerm)
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   }
@@ -68,14 +68,14 @@ const Header = () => {
                 <Dropdown
                   renderTrigger={() => <img src={user.avatar || '/default_profile.png'} className='cursor-pointer h-9 w-9 rounded-full object-cover ml-1' />}
                 >
-                  <Dropdown.Item as={Link} to="/listing/create" className='flex items-center w-full gap-1.5 md:hidden'>
-                    <FaPlus /> Create New Listing
+                  <Dropdown.Item as={Link} to="/listing/create" className='flex justify-between items-center w-full gap-2 md:hidden'>
+                    Create New Listing <FaPlus />
                   </Dropdown.Item>
-                  <Dropdown.Item as={Link} to="/profile" className='flex items-center justify-center gap-1 w-full'>
-                    <IoPerson fontSize={16} /> {user.first_name}{" "}{user.last_name}
+                  <Dropdown.Item as={Link} to="/profile" className='flex items-center justify-between gap-2 w-full'>
+                    {`${user.first_name} ${user.last_name}`}<IoPerson fontSize={16} />
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={signout} className='flex items-center justify-center gap-1 w-full'>
-                    <PiSignOutBold fontSize={18} /> Sign Out
+                  <Dropdown.Item onClick={signout} className='flex items-center justify-between gap-2 w-full'>
+                    Sign Out <PiSignOutBold fontSize={18} />
                   </Dropdown.Item>
                 </Dropdown>
               </>
