@@ -6,10 +6,6 @@ body{
     @apply bg-gray-200 dark:bg-gray-950;
 }
 
-.primary{
-    @apply text-red-600 dark:text-blue-600;
-}
-
 .input-bar{
     @apply
     border rounded-full px-3 py-2
@@ -31,9 +27,9 @@ body{
 
 .nav-btn{
     @apply
-    rounded-full px-4 py-2
+    rounded-full px-4 py-2 max-md:p-2
     text-gray-700 dark:text-gray-200
-    hover:bg-gray-200 dark:hover:bg-gray-700
+    hover:bg-gray-300 dark:hover:bg-gray-700
 }
 
 .paper{
@@ -130,7 +126,7 @@ body{
 
 .card{
     @apply
-    bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200 
+    bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-200 
     flex flex-col justify-center items-start shadow-xl
     border border-gray-300 dark:border-gray-800 rounded-lg
     px-6 pb-6 pt-4
@@ -140,7 +136,7 @@ body{
     @apply
     rounded-full p-2
     text-gray-700 dark:text-gray-200
-    hover:bg-gray-200 dark:hover:bg-gray-700
+    hover:bg-gray-300 dark:hover:bg-gray-700
 }
 
 .details-paper{
@@ -150,6 +146,45 @@ body{
     my-8 mx-auto pb-8 pt-4 px-8 max-sm:px-6
     rounded-lg w-11/12 max-w-3xl shadow-xl
     border border-gray-300 dark:border-gray-800
+}
+
+.search-btn{
+    @apply
+    rounded-full p-2
+    text-gray-700 dark:text-gray-200
+    hover:bg-gray-300 dark:hover:bg-gray-500
+}
+
+.search-container{
+    @apply
+    flex max-md:flex-col md:justify-center max-md:items-center
+    w-11/12 max-w-7xl mx-auto my-8 gap-4 h-full
+}
+
+.search-paper{
+    @apply
+    w-full md:w-1/3 lg:w-1/4 px-4 py-8 gap-4 h-fit
+    bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-200
+    flex flex-col items-center rounded-lg shadow-xl
+    border border-gray-300 dark:border-gray-800
+}
+
+.search-card-container{
+    @apply
+    flex flex-col shadow-xl overflow-hidden
+    border border-gray-300 dark:border-gray-800 rounded-lg
+    bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-200
+}
+
+.search-card{
+    @apply
+    flex flex-col justify-between h-full p-4 pt-2 gap-4
+}
+
+.search-card-btn{
+    @apply
+    rounded-full p-1.5
+    text-gray-700 hover:bg-gray-300 hover:bg-opacity-80
 }
 /* input:-webkit-autofill,
 input:-webkit-autofill:hover,

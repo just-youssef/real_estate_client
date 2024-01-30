@@ -8,6 +8,7 @@ import CreateListing from "./CreateListing";
 import UpdateListing from "./UpdateListing";
 import ListingDetails from "./ListingDetails";
 import ListingGallery from "./ListingGallery";
+import Search from "./Search";
 
 export {
     Home,
@@ -20,4 +21,5 @@ export {
     UpdateListing,
     ListingDetails,
     ListingGallery,
+    Search,
 }

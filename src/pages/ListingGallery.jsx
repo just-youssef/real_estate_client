@@ -35,7 +35,7 @@ const ListingGallery = () => {
                 <span className="text-gray-500">{user.first_name}{" "}{user.last_name}{" "}</span>
                 Listings Gallery
             </h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {listings.map((listing, idx) => <ListingCard key={idx} listing={listing} setListings={setListings} />)}
             </div>
         </main>

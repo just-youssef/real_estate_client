@@ -1,15 +1,18 @@
 import { DarkThemeToggle, Dropdown } from 'flowbite-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaSearch, FaPlus } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from 'react-redux';
 import { clearUserData } from '../lib/features/userReducer';
 import { IoPerson } from "react-icons/io5";
 import { PiSignOutBold } from "react-icons/pi";
+import { useEffect, useState } from 'react';
 
 const Header = () => {
   const { token, details: user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   const signout = () => {
     dispatch(clearUserData());
@@ -18,7 +21,18 @@ const Header = () => {
   const handleSearch = (e) => {
     e.preventDefault()
 
+    const urlParams = new URLSearchParams(location.search);
+    if (searchTerm) urlParams.set('searchTerm', searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
   }
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get('searchTerm');
+    
+    if (searchTermFromUrl) setSearchTerm(searchTermFromUrl);
+  }, [location.search]);
 
   return (
     <div className='nav-paper'>
@@ -31,15 +45,20 @@ const Header = () => {
           </div>
         </Link>
 
-        <form className='relative max-sm:mx-2 max-sm:flex-grow sm:w-64 lg:w-96' onSubmit={handleSearch}>
-          <input type="text" className='input-bar w-full text-sm' placeholder='Search..' />
-          <button className='absolute inset-y-0 end-2.5'>
-            <FaSearch className='icon' />
-          </button>
+        <form onSubmit={handleSearch} className='relative max-sm:mx-2 max-sm:flex-grow sm:w-64 lg:w-96'>
+          <input
+            type="text" className='input-bar w-full text-sm' placeholder='Search..'
+            value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <div className='absolute inset-y-0 end-1 flex items-center'>
+            <button className='search-btn'>
+              <FaSearch className='icon' />
+            </button>
+          </div>
         </form>
 
         <div className='flex items-center'>
-          <DarkThemeToggle className='rounded-full hover:bg-gray-200 focus:ring-0 p-2' />
+          <DarkThemeToggle className='rounded-full hover:bg-gray-300 focus:ring-0 p-2' />
           {
             token ?
               <>
