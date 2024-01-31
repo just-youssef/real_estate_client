@@ -73,7 +73,7 @@ const ListingDetails = () => {
         {/* edit and delete buttons */}
         {
           token && user?._id === listing.owner._id ?
-            <div className='flex justify-end items-center w-full'>
+            <div className='flex justify-end items-center w-full pt-2 px-2'>
               <Link to={`/listing/update/${listing._id}`} className='card-btn'><MdEdit fontSize={24} /></Link>
               <button className='card-btn' onClick={() => setConfirmDelete(true)}> <MdDelete fontSize={24} /></button>
 
@@ -97,77 +97,78 @@ const ListingDetails = () => {
                   </Modal.Body>
                 </div>
               </Modal>
-            </div> : <div className="pt-4" />
+            </div> : <div className="pt-8" />
         }
+        <div className="px-8 max-sm:px-6" >
+          {/* title and price */}
+          <h1 className="text-2xl max-sm:text-xl mb-6">
+            <span className="text-blue-600 dark:text-blue-500 font-semibold">{listing.title}</span>
+            {' - '}
+            {listing.offer ? listing.discountPrice : listing.regularPrice} EGP
+            {listing.type === 'rent' && ' / Month'}
+          </h1>
 
-        {/* title and price */}
-        <h1 className="text-2xl max-sm:text-xl mb-6">
-          <span className="text-blue-600 dark:text-blue-500 font-semibold">{listing.title}</span>
-          {' - '}
-          {listing.offer ? listing.discountPrice : listing.regularPrice} EGP
-          {listing.type === 'rent' && ' / Month'}
-        </h1>
-
-        {/* location */}
-        <p className='flex items-center gap-1'>
-          <FaMapMarkerAlt className='text-green-600 dark:text-green-500' />
-          {listing.address}
-        </p>
-
-        {/* type and offer */}
-        <div className='flex gap-2 mt-2 w-1/2 max-sm:w-2/3'>
-          <p className='bg-red-800 dark:bg-red-900 w-1/2 max-sm:text-sm text-gray-200 p-1 rounded-md flex items-center justify-center'>
-            {listing.type === 'rent' ? 'For Rent' : 'For Sale'}
+          {/* location */}
+          <p className='flex items-center gap-1'>
+            <FaMapMarkerAlt className='text-green-600 dark:text-green-500' />
+            {listing.address}
           </p>
-          {listing.offer && (
-            <p className='bg-green-800 dark:bg-green-900 w-1/2 max-sm:text-sm text-gray-200 p-1 rounded-md flex items-center justify-center text-center'>
-              {Math.round((+listing.regularPrice - +listing.discountPrice) / +listing.regularPrice * 100)}% Discount
+
+          {/* type and offer */}
+          <div className='flex gap-2 mt-2 w-1/2 max-sm:w-2/3'>
+            <p className='bg-red-800 dark:bg-red-900 w-1/2 max-sm:text-sm text-gray-200 p-1 rounded-md flex items-center justify-center'>
+              {listing.type === 'rent' ? 'For Rent' : 'For Sale'}
             </p>
-          )}
+            {listing.offer && (
+              <p className='bg-green-800 dark:bg-green-900 w-1/2 max-sm:text-sm text-gray-200 p-1 rounded-md flex items-center justify-center text-center'>
+                {Math.round((+listing.regularPrice - +listing.discountPrice) / +listing.regularPrice * 100)}% Discount
+              </p>
+            )}
+          </div>
+
+          {/* description */}
+          <p className="mt-4">
+            <span className='font-semibold text-gray-600 dark:text-gray-400'>
+              {'Description - '}
+            </span>
+            {listing.description}
+          </p>
+
+          {/* bedrooms, bathrooms, parking and furnished */}
+          <div className='flex gap-x-6 gap-y-2 flex-wrap text-green-600 dark:text-green-500 font-semibold text-sm mt-4'>
+            <span className='flex items-center gap-1'>
+              <FaBed className='text-lg' />
+              {listing.bedrooms} Bedroom{listing.bedrooms > 1 && 's'}
+            </span>
+            <span className='flex items-center gap-1'>
+              <FaBath className='text-lg' />
+              {listing.bathrooms} Bathroom{listing.bathrooms > 1 && 's'}
+            </span>
+            <span className='flex items-center gap-1'>
+              <FaParking className='text-lg' />
+              {listing.parking ? 'Parking' : 'No Parking'}
+            </span>
+            <span className='flex items-center gap-1'>
+              <FaChair className='text-lg' />
+              {listing.furnished ? 'Furnished' : 'Unfurnished'}
+            </span>
+          </div>
+
+          {/* contact landlord */}
+          {
+            token && listing.owner._id !== user?._id &&
+            (
+              contact ? <Contact listing={listing} />
+                :
+                <button
+                  onClick={() => setContact(true)}
+                  className='submit w-full mt-6'
+                >
+                  Contact landlord
+                </button>
+            )
+          }
         </div>
-
-        {/* description */}
-        <p className="mt-4">
-          <span className='font-semibold text-gray-600 dark:text-gray-400'>
-            {'Description - '}
-          </span>
-          {listing.description}
-        </p>
-
-        {/* bedrooms, bathrooms, parking and furnished */}
-        <div className='flex gap-x-6 gap-y-2 flex-wrap text-green-600 dark:text-green-500 font-semibold text-sm mt-4'>
-          <span className='flex items-center gap-1'>
-            <FaBed className='text-lg' />
-            {listing.bedrooms} Bedroom{listing.bedrooms > 1 && 's'}
-          </span>
-          <span className='flex items-center gap-1'>
-            <FaBath className='text-lg' />
-            {listing.bathrooms} Bathroom{listing.bathrooms > 1 && 's'}
-          </span>
-          <span className='flex items-center gap-1'>
-            <FaParking className='text-lg' />
-            {listing.parking ? 'Parking' : 'No Parking'}
-          </span>
-          <span className='flex items-center gap-1'>
-            <FaChair className='text-lg' />
-            {listing.furnished ? 'Furnished' : 'Unfurnished'}
-          </span>
-        </div>
-
-        {/* contact landlord */}
-        {
-          token && listing.owner._id !== user?._id &&
-          (
-            contact ? <Contact listing={listing} />
-              :
-              <button
-                onClick={() => setContact(true)}
-                className='submit w-full mt-6'
-              >
-                Contact landlord
-              </button>
-          )
-        }
       </div>
     </main>
   )
