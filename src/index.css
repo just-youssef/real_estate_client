@@ -169,7 +169,7 @@ body{
     @apply
     bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-200 
     flex flex-col justify-center items-start
-    my-8 mx-auto pb-8
+    my-8 mx-auto pb-12
     rounded-lg w-11/12 max-w-3xl shadow-xl
     border border-gray-300 dark:border-gray-800
 }

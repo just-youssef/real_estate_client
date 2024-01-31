@@ -97,7 +97,7 @@ const ListingDetails = () => {
                   </Modal.Body>
                 </div>
               </Modal>
-            </div> : <div className="pt-8" />
+            </div> : <div className="pt-12" />
         }
         <div className="px-8 max-sm:px-6 w-full" >
           {/* title and price */}
@@ -135,7 +135,7 @@ const ListingDetails = () => {
           </p>
 
           {/* bedrooms, bathrooms, parking and furnished */}
-          <div className='flex gap-x-6 gap-y-2 flex-wrap text-green-600 dark:text-green-500 font-semibold text-sm mt-4'>
+          <div className='grid grid-cols-2 md:grid-cols-4 gap-y-2 text-green-600 dark:text-green-500 font-semibold text-sm mt-4'>
             <span className='flex items-center gap-1'>
               <FaBed className='text-lg' />
               {listing.bedrooms} Bedroom{listing.bedrooms > 1 && 's'}
