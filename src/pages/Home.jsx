@@ -94,8 +94,8 @@ const Home = () => {
       <div className="home-bottom">
         {/* offer listing */}
         <div className="flex flex-col">
-          <h1 className="text-3xl font-semibold">Recent Offers</h1>
-          <Link className='link mb-2' to={'/search?offer=true'}>Show More Offers</Link>
+          <h1 className="text-2xl font-semibold">Recent Offers</h1>
+          <Link className='link mb-2 text-sm' to={'/search?offer=true'}>Show More Offers</Link>
           {
             !offerListings ? <div className='flex justify-center'><Spinner size="xl" /></div>
               :
@@ -107,8 +107,8 @@ const Home = () => {
 
         {/* rent listing */}
         <div className="flex flex-col">
-          <h1 className="text-3xl font-semibold">Recent Places For RENT</h1>
-          <Link className='link mb-2' to={'/search?type=rent'}>Show More Places For RENT</Link>
+          <h1 className="text-2xl font-semibold">Recent Places For RENT</h1>
+          <Link className='link mb-2 text-sm' to={'/search?type=rent'}>Show More Places For RENT</Link>
           {
             !rentListings ? <div className='flex justify-center'><Spinner size="xl" /></div>
               :
@@ -120,8 +120,8 @@ const Home = () => {
 
         {/* sale listing */}
         <div className="flex flex-col">
-          <h1 className="text-3xl font-semibold">Recent Places For SALE</h1>
-          <Link className='link mb-2' to={'/search?type=sell'}>Show More Places For SALE</Link>
+          <h1 className="text-2xl font-semibold">Recent Places For SALE</h1>
+          <Link className='link mb-2 text-sm' to={'/search?type=sell'}>Show More Places For SALE</Link>
           {
             !saleListings ? <div className='flex justify-center'><Spinner size="xl" /></div>
               :
