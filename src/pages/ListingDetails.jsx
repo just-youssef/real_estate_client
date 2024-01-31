@@ -99,7 +99,7 @@ const ListingDetails = () => {
               </Modal>
             </div> : <div className="pt-8" />
         }
-        <div className="px-8 max-sm:px-6" >
+        <div className="px-8 max-sm:px-6 w-full" >
           {/* title and price */}
           <h1 className="text-2xl max-sm:text-xl mb-6">
             <span className="text-blue-600 dark:text-blue-500 font-semibold">{listing.title}</span>
@@ -115,12 +115,12 @@ const ListingDetails = () => {
           </p>
 
           {/* type and offer */}
-          <div className='flex gap-2 mt-2 w-1/2 max-sm:w-2/3'>
-            <p className='bg-red-800 dark:bg-red-900 w-1/2 max-sm:text-sm text-gray-200 p-1 rounded-md flex items-center justify-center'>
+          <div className='flex gap-2 mt-2 w-full sm:w-2/3 md:w-1/2'>
+            <p className='bg-red-800 dark:bg-red-900 w-1/2 text-gray-200 p-1 rounded-md flex items-center justify-center'>
               {listing.type === 'rent' ? 'For Rent' : 'For Sale'}
             </p>
             {listing.offer && (
-              <p className='bg-green-800 dark:bg-green-900 w-1/2 max-sm:text-sm text-gray-200 p-1 rounded-md flex items-center justify-center text-center'>
+              <p className='bg-green-800 dark:bg-green-900 w-1/2 text-gray-200 p-1 rounded-md flex items-center justify-center text-center'>
                 {Math.round((+listing.regularPrice - +listing.discountPrice) / +listing.regularPrice * 100)}% Discount
               </p>
             )}
