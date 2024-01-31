@@ -8,8 +8,8 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'http://localhost:8000',
-        secure: false,
+        target: 'https://real-estate-server-s47l.onrender.com',
+        secure: true,
       },
     },
   },
