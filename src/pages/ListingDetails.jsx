@@ -73,7 +73,7 @@ const ListingDetails = () => {
         {/* edit and delete buttons */}
         {
           token && user?._id === listing.owner._id ?
-            <div className='flex justify-end items-center w-full pt-2 px-2'>
+            <div className='flex justify-end items-center w-full pt-4 px-2'>
               <Link to={`/listing/update/${listing._id}`} className='card-btn'><MdEdit fontSize={24} /></Link>
               <button className='card-btn' onClick={() => setConfirmDelete(true)}> <MdDelete fontSize={24} /></button>
 
