@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Header, Private } from './components';
+import { Header, Private, NotFound } from './components';
 import { CreateListing, Home, ListingDetails, ListingGallery, Profile, Search, SignIn, SignUp, UpdateListing, Verification, VerificationConfirm } from './pages'
 
 const App = () => {
@@ -20,6 +20,7 @@ const App = () => {
           <Route exact path="/listing/update/:id" element={<UpdateListing />} />
           <Route exact path="/listing/gallery" element={<ListingGallery />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   )

@@ -4,6 +4,7 @@ import Private from "./Private";
 import ListingForm from "./ListingForm";
 import ListingCard from "./ListingCard";
 import Contact from "./Contact";
+import NotFound from "./NotFound";
 
 export {
     Header,
@@ -11,5 +12,6 @@ export {
     Private,
     ListingForm,
     ListingCard,
-    Contact
+    Contact,
+    NotFound
 }
