@@ -6,11 +6,5 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
-    proxy: {
-      '/api': {
-        target: 'https://real-estate-server-s47l.onrender.com',
-        secure: true,
-      },
-    },
   },
 })
