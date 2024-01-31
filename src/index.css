@@ -61,7 +61,7 @@ body{
 .paper{
     @apply
     flex flex-col justify-center items-center
-    my-10 mx-auto p-8
+    my-10 mx-auto p-8 max-sm:px-6
     shadow-xl rounded-lg border border-gray-300 dark:border-gray-800
     w-11/12 max-w-xl
     bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-200 
